@@ -2,7 +2,7 @@
 #include "Connector.h"
 
 int main() {
-    
+/*    
     char** args = new char*[3];
     args[0] = "ls";
     args[1] = "-j";
@@ -27,6 +27,6 @@ int main() {
     //getline
     //frame cmd
     //execute cmd
-    
+*/    
     return 0;
 }

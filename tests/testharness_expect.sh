@@ -1,7 +1,10 @@
 #!/usr/bin/expect
 
 set timeout 5
-set hostname [lindex $argv 0]
+# Save the hostname so we know what the command prompt looks like.
+set hostname [lindex $argv 0] 
+# Same the username so we know what the command prompt looks like.
+set username [lindex $argv 1] 
 log_user 0
 
 spawn ./rshell.exe

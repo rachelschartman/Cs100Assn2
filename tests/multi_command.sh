@@ -6,3 +6,4 @@ echo pineapple; ls -j && echo world; echo hello
 ls -p -j -t -s -q -r -j -v -d "hello || echo world" || echo "this one should exec"
 ls || && ; echo lion
 echo "i'm on cloud9" || echo "I'm done, off to live life and watch a stupid hot dog movie"
+ls -al | grep command

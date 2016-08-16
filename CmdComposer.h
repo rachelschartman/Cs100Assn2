@@ -4,6 +4,7 @@
 #include "Cmd.h"
 #include "Connector.h"
 #include <sstream>
+#include <iostream>
 #include <vector>
 #include <string.h>
 
@@ -16,7 +17,53 @@ class CmdComposer {
             string tstr;
             vector<string> v;
             int conType = -1; //default no connector
-            while (ss >> tstr) {
+            
+            while (ss >> tstr) { //quotation marks
+                if (tstr.at(0) == '"') {
+                    bool isFinished = false;
+                    tstr = tstr.substr(1, tstr.size() - 1);
+                    while (!isFinished) {
+                        string tstr2;
+                        if (ss >> tstr2) {
+                            int i;
+                            for (i = 0; i < tstr2.size(); ++i) {
+                                if(tstr2.at(i) == '"') {
+                                    isFinished = true;
+                                    break;
+                                }
+                            }
+                            if (isFinished) {
+                                for ( ; i < tstr2.size() - 1; ++i) {
+                                    tstr2.at(i) = tstr2.at(i + 1);
+                                }
+                                tstr2 = tstr2.substr(0, tstr2.size() - 1);
+                            }
+                            if (tstr.at(tstr.size() - 1) != '\n') {
+                                 tstr += " ";    
+                            }
+                            tstr += tstr2;
+                        }
+                        else {
+                            string tempstr;
+                            cout << "> ";
+                            tstr += '\n';
+                            getline(cin, tempstr);
+                            ss.str(tempstr);
+                            ss.clear();
+                        }
+                    }
+                } //end quotation marks
+                else {
+                    bool isComment = false;
+                    for (int i = 0; i < tstr.size(); ++i) {
+                        if(tstr.at(i) == '#') {
+                            tstr = tstr.substr(0, i);
+                            isComment = true;
+                        }
+                    }
+                    if (isComment) break;
+                }
+                
                 if(tstr.at(tstr.size() - 1) == ';') {
                     conType = next; //semicolon
                     v.push_back(tstr.substr(0, tstr.size() - 1));
@@ -29,7 +76,8 @@ class CmdComposer {
                 else if(strcmp(tstr.c_str(), "&&") == 0) {
                     conType = success;
                     break;
-                } 
+                }
+                
                 
                 v.push_back(tstr);
                 
